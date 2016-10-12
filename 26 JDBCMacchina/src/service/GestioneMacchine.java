@@ -1,5 +1,7 @@
 package service;
 
+import java.util.Map;
+
 import dao.MacchinaDAO;
 import dao.MacchinaPersonaDAO;
 import dao.PersonaDAO;
@@ -106,6 +108,15 @@ public class GestioneMacchine {
 			
 		}
 		return false;
+	}
+
+	public Map<String, Macchina> getTutteMacchinePerPersona(String codF) {
+		
+		if (codF != null){
+			
+			return mpDAO.getTutteMacchinePerPersona(codF);
+		}
+		return null;
 	}
 
 }

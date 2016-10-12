@@ -2,7 +2,12 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
+import java.util.TreeMap;
+
+import model.Macchina;
 
 public class MacchinaPersonaDAO extends ConnesioneDAO {
 	
@@ -76,5 +81,55 @@ public class MacchinaPersonaDAO extends ConnesioneDAO {
 			}
 		}
 		return false;
+	}
+
+	public Map<String, Macchina> getTutteMacchinePerPersona(String codF) {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Map <String, Macchina> tempMap;
+		try {
+			
+			String sql = "SELECT Targa, Modello " +
+					 "FROM MACCHINA " +
+					 "WHERE Id_Car IN (SELECT Id_Car " +
+					 				"FROM MACCHINA_PERSONA " +
+					 				"WHERE ID_P IN (SELECT Id_P " +
+					 							"FROM PERSONA " +
+						 						"WHERE CodF = ?))" +
+					"ORDER BY Targa";
+			
+			ps = con.prepareStatement(sql);
+			ps.setString(1, codF);
+			
+			rs = ps.executeQuery();
+			
+			tempMap = new TreeMap<String, Macchina>();
+			while (rs.next()){
+				
+				tempMap.put(rs.getString(1), new Macchina(rs.getString(2), 
+														rs.getString(1)));
+			}
+			if (!tempMap.isEmpty()){
+				return tempMap;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return null;
 	}
 }

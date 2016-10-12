@@ -2,6 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.Map;
+
 import org.junit.Test;
 
 import model.Macchina;
@@ -164,7 +166,7 @@ public class GestioneMacchineTest {
 		m = g.aggiungiMacchina("Fiat", "CW488GY");
 		assertNotNull(m);
 		
-		//in stesura
+		Map<String, Macchina> mapOut = g.getTutteMacchinePerPersona(p.getCodF());
 		
 	}
 }
