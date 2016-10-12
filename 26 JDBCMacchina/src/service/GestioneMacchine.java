@@ -119,4 +119,14 @@ public class GestioneMacchine {
 		return null;
 	}
 
+	public Map<String, Macchina> getTutteMacchine() {
+		
+		return mDAO.getTutteMacchine();
+	}
+
+	public Map<String, Persona> getTuttePersone() {
+
+		return pDAO.getTuttePersone();
+	}
+
 }

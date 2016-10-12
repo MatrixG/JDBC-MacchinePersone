@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
+import java.util.TreeMap;
 import model.Persona;
 
 public class PersonaDAO {
@@ -18,7 +20,8 @@ public class PersonaDAO {
 			ResultSet rs = null;
 			try {
 
-				String sql = "INSERT INTO PERSONA(nome, cognome, codF) " + "VALUES (?, ?, ?)";
+				String sql = "INSERT INTO PERSONA(nome, cognome, codF) " + 
+						     "VALUES (?, ?, ?)";
 
 				ps = con.prepareStatement(sql, new String[] { "Nome", "Cognome", "CodF" });
 				ps.setString(1, nome);
@@ -162,6 +165,48 @@ public class PersonaDAO {
 						e.printStackTrace();
 					}
 			}
+		}
+		return null;
+	}
+
+	public Map<String, Persona> getTuttePersone() {
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+
+			String sql = "SELECT Cognome, Nome, CodF" + 
+					  	 "FROM Persona " + 
+					  	 "ORDER BY Cognome";
+
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+
+			Map<String, Persona> temp = new TreeMap<String, Persona>();
+			while (rs.next()) {
+
+				temp.put(rs.getString(2), new Persona(rs.getString(2), rs.getString(1),
+													rs.getString(3)));
+			}
+			if (!temp.isEmpty()) {
+				return temp;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 		return null;
 	}

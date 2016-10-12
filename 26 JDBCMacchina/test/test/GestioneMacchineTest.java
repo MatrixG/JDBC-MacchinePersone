@@ -183,4 +183,41 @@ public class GestioneMacchineTest {
 		assertTrue(g.cancellaMacchina("CW488GY"));
 		assertTrue(g.cancellaPersona("BRTLSN87T01C722D"));
 	}
+	
+	@Test
+	public void getTutteMacchine(){
+		
+		Macchina m = g.aggiungiMacchina("Audi", "EH221JH");
+		assertNotNull(m);
+		m = g.aggiungiMacchina("Ford", "FA197XY");
+		assertNotNull(m);
+		m = g.aggiungiMacchina("Fiat", "CW488GY");
+		assertNotNull(m);
+		
+		Map<String, Macchina> macchine = g.getTutteMacchine();
+		
+		assertEquals(3, macchine.size());
+		
+		assertTrue(g.cancellaMacchina("EH221JH"));
+		assertTrue(g.cancellaMacchina("FA197XY"));
+		assertTrue(g.cancellaMacchina("CW488GY"));	
+	}
+	
+	public void getTuttePersone(){
+		
+		Persona p = g.aggiungiPersona("Alessandro", "Boaretto", "BRTLSN87T01C722D");
+		assertNotNull(p);
+		p = g.aggiungiPersona("Jack", "Sparrow", "JCKSPR52R20L219X");
+		assertNotNull(p);
+		p = g.aggiungiPersona("Pino", "Tombino", "PNITMB64A11C747V");
+		assertNotNull(p);
+		
+		Map<String, Persona> persone = g.getTuttePersone();
+		
+		assertEquals(3, persone.size());
+		
+		assertTrue(g.cancellaPersona("BRTLSN87T01C722D"));
+		assertTrue(g.cancellaPersona("JCKSPR52R20L219X"));
+		assertTrue(g.cancellaPersona("PNITMB64A11C747V"));
+	}
 }

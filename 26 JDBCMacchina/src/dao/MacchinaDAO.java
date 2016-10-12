@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
+import java.util.TreeMap;
 
 import model.Macchina;
 
@@ -19,7 +21,8 @@ public class MacchinaDAO extends ConnesioneDAO {
 			ResultSet rs = null;
 			try {
 
-				String sql = "INSERT INTO MACCHINA(modello, targa) " + "VALUES (?, ?)";
+				String sql = "INSERT INTO MACCHINA(modello, targa) " + 
+						  	 "VALUES (?, ?)";
 
 				ps = con.prepareStatement(sql, new String[] { "Modello", "Targa" });
 				ps.setString(1, modello);
@@ -29,7 +32,7 @@ public class MacchinaDAO extends ConnesioneDAO {
 				rs = ps.getGeneratedKeys();
 
 				if (rs.next()) {
-					
+
 					if ((modello.compareTo(rs.getString(1)) == 0) && (targa.compareTo(rs.getString(2)) == 0)) {
 
 						return new Macchina(rs.getString(1), rs.getString(2));
@@ -37,7 +40,7 @@ public class MacchinaDAO extends ConnesioneDAO {
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}finally {
+			} finally {
 				if (rs != null)
 					try {
 						rs.close();
@@ -60,7 +63,9 @@ public class MacchinaDAO extends ConnesioneDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT Modello, Targa " + "FROM Macchina " + "WHERE Targa = ?";
+			String sql = "SELECT Modello, Targa " + 
+						 "FROM Macchina " + 
+						 "WHERE Targa = ?";
 
 			ps = con.prepareStatement(sql);
 			ps.setString(1, targa);
@@ -96,7 +101,8 @@ public class MacchinaDAO extends ConnesioneDAO {
 			PreparedStatement ps = null;
 			try {
 
-				String sql = "DELETE FROM MACCHINA " + "WHERE TARGA = ?";
+				String sql = "DELETE FROM MACCHINA " + 
+							 "WHERE TARGA = ?";
 
 				ps = con.prepareStatement(sql);
 				ps.setString(1, targa);
@@ -123,28 +129,29 @@ public class MacchinaDAO extends ConnesioneDAO {
 	public Macchina modificaMacchina(String targa, String nomeNew) {
 
 		if (cercaMacchina(targa) != null) {
-			
+
 			PreparedStatement ps = null;
 			try {
 
-				String sql = "UPDATE MACCHINA " + "SET Modello = ? " + "WHERE Targa = ?";
+				String sql = "UPDATE MACCHINA " + 
+							 "SET Modello = ? " + 
+							 "WHERE Targa = ?";
 
 				ps = con.prepareStatement(sql);
 				ps.setString(1, nomeNew);
 				ps.setString(2, targa);
 
 				ps.executeQuery();
-				
+
 				Macchina m = cercaMacchina(targa);
-				
-				if ((m != null) && (nomeNew.compareTo(m.getModello()) == 0) && 
-								   (targa.compareTo(m.getTarga()) == 0)) {
-					
+
+				if ((m != null) && (nomeNew.compareTo(m.getModello()) == 0) && (targa.compareTo(m.getTarga()) == 0)) {
+
 					return m;
-					}
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}finally {
+			} finally {
 				if (ps != null)
 					try {
 						ps.close();
@@ -152,6 +159,47 @@ public class MacchinaDAO extends ConnesioneDAO {
 						e.printStackTrace();
 					}
 			}
+		}
+		return null;
+	}
+
+	public Map<String, Macchina> getTutteMacchine() {
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+
+			String sql = "SELECT Modello, Targa " + 
+						 "FROM Macchina " + 
+						 "ORDER BY Modello";
+
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+
+			Map<String, Macchina> temp = new TreeMap<String, Macchina>();
+			while (rs.next()) {
+
+				temp.put(rs.getString(2), new Macchina(rs.getString(1), rs.getString(2)));
+			}
+			if (!temp.isEmpty()) {
+				return temp;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 		return null;
 	}
