@@ -159,16 +159,28 @@ public class GestioneMacchineTest {
 		
 		Persona p = g.aggiungiPersona("Alessandro", "Boaretto", "BRTLSN87T01C722D");
 		assertNotNull(p);
+		
 		Macchina m = g.aggiungiMacchina("Audi", "EH221JH");
 		assertNotNull(m);
+		assertTrue(g.aggiungiMacchinaPersona(m.getTarga(), p.getCodF()));
+		
 		m = g.aggiungiMacchina("Ford", "FA197XY");
 		assertNotNull(m);
+		assertTrue(g.aggiungiMacchinaPersona(m.getTarga(), p.getCodF()));
+		
 		m = g.aggiungiMacchina("Fiat", "CW488GY");
 		assertNotNull(m);
+		assertTrue(g.aggiungiMacchinaPersona(m.getTarga(), p.getCodF()));
 		
 		Map<String, Macchina> mapOut = g.getTutteMacchinePerPersona(p.getCodF());
 		
-		//continua check
+		assertTrue(mapOut.containsKey("EH221JH"));
+		assertTrue(mapOut.containsKey("FA197XY"));
+		assertTrue(mapOut.containsKey("CW488GY"));
 		
+		assertTrue(g.cancellaMacchina("EH221JH"));
+		assertTrue(g.cancellaMacchina("FA197XY"));
+		assertTrue(g.cancellaMacchina("CW488GY"));
+		assertTrue(g.cancellaPersona("BRTLSN87T01C722D"));
 	}
 }

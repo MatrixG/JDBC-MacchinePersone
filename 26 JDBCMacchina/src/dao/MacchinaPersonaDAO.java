@@ -96,7 +96,7 @@ public class MacchinaPersonaDAO extends ConnesioneDAO {
 					 				"FROM MACCHINA_PERSONA " +
 					 				"WHERE ID_P IN (SELECT Id_P " +
 					 							"FROM PERSONA " +
-						 						"WHERE CodF = ?))" +
+						 						"WHERE CodF = ?)) " +
 					"ORDER BY Targa";
 			
 			ps = con.prepareStatement(sql);
