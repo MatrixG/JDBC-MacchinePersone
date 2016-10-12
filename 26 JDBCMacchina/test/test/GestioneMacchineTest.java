@@ -168,5 +168,7 @@ public class GestioneMacchineTest {
 		
 		Map<String, Macchina> mapOut = g.getTutteMacchinePerPersona(p.getCodF());
 		
+		//continua check
+		
 	}
 }
