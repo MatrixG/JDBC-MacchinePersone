@@ -13,6 +13,8 @@ public class MacchinaDAO extends ConnesioneDAO {
 
 	private Connection con = ConnesioneDAO.connetti();
 
+	// Questo metodo cerca se la macchina non è già presente
+	// e, se non lo è, la aggiunge al db
 	public Macchina aggiungiMacchina(String modello, String targa) {
 
 		if (cercaMacchina(targa) == null) {
@@ -94,6 +96,7 @@ public class MacchinaDAO extends ConnesioneDAO {
 		return null;
 	}
 
+	// Cerca che la macchina esista e poi la cancella
 	public boolean cancellaMacchina(String targa) {
 
 		if (cercaMacchina(targa) != null) {
@@ -126,6 +129,7 @@ public class MacchinaDAO extends ConnesioneDAO {
 		return false;
 	}
 
+	// Modifica una macchina se esiste nel DB
 	public Macchina modificaMacchina(String targa, String nomeNew) {
 
 		if (cercaMacchina(targa) != null) {
@@ -163,6 +167,7 @@ public class MacchinaDAO extends ConnesioneDAO {
 		return null;
 	}
 
+	// Questo metodo ritorna tutte le macchine presenti nel DB
 	public Map<String, Macchina> getTutteMacchine() {
 
 		PreparedStatement ps = null;

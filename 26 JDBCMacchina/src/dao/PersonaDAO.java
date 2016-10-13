@@ -12,6 +12,7 @@ public class PersonaDAO {
 	
 	private Connection con = ConnesioneDAO.connetti();
 
+	// Aggiunge una persona al DB. PRime cerca se è già stata inserita
 	public Persona aggiungiPersona(String nome, String cognome, String codF) {
 		
 		if (cercaPersona(codF) == null) {
@@ -60,6 +61,7 @@ public class PersonaDAO {
 		return null;
 	}
 
+	//Cerca una persona nel DB. Se non presente torna NULL
 	public Persona cercaPersona(String codF) {
 		
 		PreparedStatement ps = null;
@@ -96,6 +98,7 @@ public class PersonaDAO {
 		return null;
 	}
 
+	// Cancella una persona dal DB
 	public boolean cancellaPersona(String codF) {
 		
 		if (cercaPersona(codF) != null) {
@@ -128,6 +131,8 @@ public class PersonaDAO {
 		return false;
 	}
 
+	//Modifica il nome e/o il cognome di una persona presente nel DB.
+	// Ritorna un oggetto Persona
 	public Persona modificaPersona(String nomeNew, String cognomeNew, String codF) {
 		
 		if (cercaPersona(codF) != null) {
@@ -169,6 +174,7 @@ public class PersonaDAO {
 		return null;
 	}
 
+	// Ritorna una lista con tutte le persone nel DB
 	public Map<String, Persona> getTuttePersone() {
 
 		PreparedStatement ps = null;

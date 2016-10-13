@@ -15,6 +15,8 @@ public class MacchinaPersonaDAO extends ConnesioneDAO {
 	private MacchinaDAO mDAO = new MacchinaDAO();
 	private PersonaDAO pDAO = new PersonaDAO();
 
+	// Aggiunge una tupla nella tabella MACCHINA_PERSONA per
+	// collegare una macchina ad una persona
 	public boolean aggiungiMacchinaPersona(String targa, String codF) {
 		
 		if ((mDAO.cercaMacchina(targa) != null) && (pDAO.cercaPersona(codF)) != null){
@@ -55,12 +57,12 @@ public class MacchinaPersonaDAO extends ConnesioneDAO {
 			try {
 								
 				String sql = "DELETE FROM MACCHINA_PERSONA " +
-						 "WHERE ID_CAR IN (SELECT ID_CAR " +
-						 								"FROM MACCHINA " +
-						 								"WHERE TARGA = ?) " +
-						 "AND   ID_P IN (SELECT ID_P " +
-						 								"FROM PERSONA " +
-						 								"WHERE CODF = ?)";
+						 	 "WHERE ID_CAR IN (SELECT ID_CAR " +
+						 					  "FROM MACCHINA " +
+						 					  "WHERE TARGA = ?) " +
+						 	 "AND   ID_P IN (SELECT ID_P " +
+						 					"FROM PERSONA " +
+						 					"WHERE CODF = ?)";
 			
 				 ps = con.prepareStatement(sql);
 				 ps.setString(1, targa);
@@ -91,12 +93,12 @@ public class MacchinaPersonaDAO extends ConnesioneDAO {
 		try {
 			
 			String sql = "SELECT Targa, Modello " +
-					 "FROM MACCHINA " +
-					 "WHERE Id_Car IN (SELECT Id_Car " +
-					 				"FROM MACCHINA_PERSONA " +
-					 				"WHERE ID_P IN (SELECT Id_P " +
-					 							"FROM PERSONA " +
-						 						"WHERE CodF = ?)) " +
+					     "FROM MACCHINA " +
+					     "WHERE Id_Car IN (SELECT Id_Car " +
+					     				  "FROM MACCHINA_PERSONA " +
+					 				      "WHERE ID_P IN (SELECT Id_P " +
+					 						    	     "FROM PERSONA " +
+						 						         "WHERE CodF = ?)) " +
 					"ORDER BY Targa";
 			
 			ps = con.prepareStatement(sql);
